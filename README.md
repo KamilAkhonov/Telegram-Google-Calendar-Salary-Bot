@@ -8,7 +8,7 @@
 
 ***Ограничение доступа к боту***
 
-Я не стал заморачиваться с авторизацией в боте, поэтому просто отрезаю доступ по 'Telegram ID':
+Я не стал заморачиваться с авторизацией в боте, поэтому просто отрезаю доступ по `Telegram ID`:
 ```python
 allowed_user_id = ' '
 def restricted(func):
@@ -74,9 +74,10 @@ except ValueError:
 
 ***Запрос к Google Calendar API***
 
-Сам шаблон для подключения и работы с `API` представлен в официальной документации `Google` на [туть](https://developers.google.com/calendar/api/quickstart/python?hl=ru)
-А необходимый для задачи запрос представлен ниже:
+Сам шаблон для подключения и работы с `API` представлен в официальной документации `Google` [туть](https://developers.google.com/calendar/api/quickstart/python?hl=ru)
 
+
+А необходимый для задачи запрос представлен ниже:
 ```Python
 # Convert start and end dates to UTC format and add 'Z' at the end to indicate UTC time
 start_date_utc = start_date.isoformat() + 'Z'
