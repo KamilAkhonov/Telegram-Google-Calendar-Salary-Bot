@@ -29,16 +29,28 @@ except ValueError:
     print("Ошибка: аргумент должен быть числом.")
     sys.exit(1)
 
-if flag == 0:
-    # 30th of the previous month
-    start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
-    # 14th of the current month (not including)
-    end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
-elif flag == 1:
-    # 15th of the current month
-    start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
-    # 30th of the current month (not including)
-    end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 30)
+if datetime.datetime.utcnow().day < 15 or datetime.datetime.utcnow().day >= 30:
+    if flag == 1:
+        # 30th of the previous month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
+        # 14th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
+    elif flag == 0:
+        # 15th of the current month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 15)
+        # 30th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
+else:
+    if flag == 0:
+        # 30th of the previous month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
+        # 14th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
+    elif flag == 1:
+        # 15th of the current month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
+        # 30th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 30)
 
 salary = []
 # If modifying these scopes, delete the file token.json.
