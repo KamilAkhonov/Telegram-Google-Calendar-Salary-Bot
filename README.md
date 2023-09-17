@@ -2,7 +2,7 @@
 
 ## `Telegram` бот для подсчета заработной платы через `Google Calendar API`.
 
-> Задача: подсчитать заработную плату за предыдущие полмесяца(с 30 прошлого по 15 текущего) и текущие полмесяца(с 15 по 30 текущего месяца), заработная плата выдается по определенным дням и фиксируется в виде мероприятий в `Google Calendar`.
+> Задача: подсчитывать заработную плату предыдущий период и текущий период, заработная плата выдается по определенным дням и фиксируется в виде мероприятий в `Google Calendar`.
 
 Для автоматизации решения задачи было предложено использование `Telegram` бота. В качестве библиотеки для работы с `Telegram API` использовалась `telebot` (pyTelegramBotAPI). Описывать поэтапно создание бота и работу с `telebot` не буду. Остановлюсь на ключевых моментах.
 
@@ -46,16 +46,28 @@ except ValueError:
 В качестве параметра в файл `Schedule.py` передается либо 0, либо 1, отвечающие за период выплаты зарплаты:
 
 ```python
-if flag == 0:
-    # 30th of the previous month
-    start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
-    # 14th of the current month (not including)
-    end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
-elif flag == 1:
-    # 15th of the current month
-    start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
-    # 30th of the current month (not including)
-    end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 30)
+if datetime.datetime.utcnow().day < 15 or datetime.datetime.utcnow().day >= 30:
+    if flag == 1:
+        # 30th of the previous month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
+        # 14th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
+    elif flag == 0:
+        # 15th of the current month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 15)
+        # 30th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
+else:
+    if flag == 0:
+        # 30th of the previous month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month - 1, 30)
+        # 14th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
+    elif flag == 1:
+        # 15th of the current month
+        start_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 15)
+        # 30th of the current month (not including)
+        end_date = datetime.datetime(datetime.datetime.utcnow().year, datetime.datetime.utcnow().month, 30)
 ```
 Для дополнительной защиты от ошибок были использованы небольшие проверки для параметра, а именно на количество аргументов и тип
 
